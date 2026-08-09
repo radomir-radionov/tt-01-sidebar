@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #517bab;
+  --color-active: #265b97;
+  --color-active-bg: rgb(38 91 151 / 0.08);
+  --color-hover-bg: rgb(0 0 0 / 0.04);
+  --color-sidebar: #f4f4f5;
+  --color-ink: rgb(0 0 0 / 0.87);
+  --color-muted: rgb(0 0 0 / 0.55);
+  --color-surface: #ffffff;
+  --color-page: #fcfcfd;
+  --color-line: #cacace;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mobile sheet: slide up on open (data-presentation only set while open). */
+@keyframes sheet-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[data-sidebar-sub-content][data-presentation="sheet"] {
+  animation: sheet-slide-up 160ms ease-out;
+}
+
+[data-sheet-backdrop] {
+  animation: sheet-backdrop-in 120ms ease-out;
+}
