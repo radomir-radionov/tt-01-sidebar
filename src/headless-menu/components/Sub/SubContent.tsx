@@ -6,26 +6,26 @@ import {
   type HTMLAttributes,
   type ReactElement,
 } from 'react'
-import { useSidebarMenu } from '../../providers'
+import { useHeadlessMenu } from '../../providers'
 import type { MenuSubRenderProps, SlotChildren } from '../../types'
 import { resolveSlot } from '../../utils/resolveSlot'
 import { FlyoutHoverContext, useSubHost } from './context'
 
-export type SidebarMenuSubContentProps = Omit<
+export type HeadlessMenuSubContentProps = Omit<
   HTMLAttributes<HTMLDivElement>,
   'children'
 > & {
   children: SlotChildren<MenuSubRenderProps>
 }
 
-export function SidebarMenuSubContent({
+export function HeadlessMenuSubContent({
   children,
   onMouseEnter,
   onMouseLeave,
   onKeyDown,
   ...rest
-}: SidebarMenuSubContentProps): ReactElement | null {
-  const menu = useSidebarMenu()
+}: HeadlessMenuSubContentProps): ReactElement | null {
+  const menu = useHeadlessMenu()
   const { subId, disabled, contentId } = useSubHost()
   const hover = useContext(FlyoutHoverContext)
   const active = menu.isSubActive(subId)
@@ -104,7 +104,7 @@ export function SidebarMenuSubContent({
       aria-hidden={open ? undefined : true}
       role={open ? (presentation === 'inline' ? 'group' : 'menu') : undefined}
       tabIndex={open && presentation === 'sheet' ? -1 : undefined}
-      data-sidebar-sub-content=""
+      data-sidebar-sub-content=''
       data-presentation={open ? presentation : undefined}
       data-active={active || undefined}
       {...rest}

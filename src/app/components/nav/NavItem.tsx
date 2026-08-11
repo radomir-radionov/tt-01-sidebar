@@ -24,7 +24,7 @@ export function NavItem({
         }`}
       >
         {icon ? <span className={iconWrap}>{icon}</span> : null}
-        <span className="whitespace-nowrap px-0.5">{label}</span>
+        <span className='whitespace-nowrap px-0.5'>{label}</span>
       </span>
     )
   }

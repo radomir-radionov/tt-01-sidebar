@@ -18,7 +18,7 @@ export function useSubHost(): SubHostValue {
   const host = useContext(SubHostContext)
   if (!host) {
     throw new Error(
-      'SidebarMenu.SubTrigger/SubContent must be used inside SidebarMenu.Sub',
+      'HeadlessMenu.SubTrigger/SubContent must be used inside HeadlessMenu.Sub',
     )
   }
   return host

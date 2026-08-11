@@ -1,5 +1,5 @@
 import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
-import { useSidebarMenu } from '../../providers'
+import { useHeadlessMenu } from '../../providers'
 import {
   FlyoutHoverContext,
   type FlyoutHoverValue,
@@ -16,7 +16,7 @@ export function SubRoot({
   children: ReactNode
   className?: string
 }) {
-  const menu = useSidebarMenu()
+  const menu = useHeadlessMenu()
   const { subId, disabled, contentId } = useSubHost()
   const active = menu.isSubActive(subId)
   const open = menu.isSubOpen(subId)
@@ -74,7 +74,7 @@ export function SubRoot({
   return (
     <div
       className={className}
-      data-sidebar-sub=""
+      data-sidebar-sub=''
       data-sub-id={subId}
       data-active={active || undefined}
       data-open={open || undefined}

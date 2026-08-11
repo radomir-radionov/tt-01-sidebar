@@ -1,6 +1,6 @@
 import { useControllableState } from './useControllableState'
 
-export type SidebarMenuControllableProps = {
+export type HeadlessMenuControllableProps = {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
@@ -13,7 +13,7 @@ export type SidebarMenuControllableProps = {
 }
 
 /** Controlled/uncontrolled selection, open subs, and density for the menu root. */
-export function useSidebarMenuControllableState({
+export function useHeadlessMenuControllableState({
   value: valueProp,
   defaultValue = '',
   onValueChange,
@@ -23,7 +23,7 @@ export function useSidebarMenuControllableState({
   openSubIds: openSubIdsProp,
   defaultOpenSubIds = [],
   onOpenSubIdsChange,
-}: SidebarMenuControllableProps) {
+}: HeadlessMenuControllableProps) {
   const [value, setValueState] = useControllableState({
     prop: valueProp,
     defaultProp: defaultValue,

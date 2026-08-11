@@ -18,14 +18,14 @@ npm run dev
 
 | Domain | Path | Responsibility |
 | --- | --- | --- |
-| Headless menu | [`src/sidebar-menu/`](src/sidebar-menu/) | Compound API, providers, hooks, types — **no styles, no React Router** |
+| Headless menu | [`src/headless-menu/`](src/headless-menu/) | Compound API, providers, hooks, types — **no styles, no React Router** |
 | Shared assets | [`src/shared/`](src/shared/) | Consumer SVG icons |
 | Consumer demo | [`src/app/`](src/app/) | HelloClient look (Tailwind), layout chrome, React Router wiring |
 
 ```text
 src/
-  sidebar-menu/         # headless domain (import from here)
-    components/         # compound SidebarMenu API
+  headless-menu/         # headless domain (import from here)
+    components/         # compound HeadlessMenu API
     providers/          # context + selection / open / density
     hooks/              # controllable state + viewport
     types/ utils/
@@ -45,25 +45,25 @@ src/
 Menu structure is declared with components — not a JSON/`items[]` config:
 
 ```tsx
-import { SidebarMenu } from './sidebar-menu'
+import { HeadlessMenu } from './headless-menu'
 
-<SidebarMenu
+<HeadlessMenu
   value={pathname}
   onValueChange={navigate}
   collapsed={collapsed}
   onCollapsedChange={setCollapsed}
 >
-  <SidebarMenu.Item value="/trends">{({ selected }) => …}</SidebarMenu.Item>
+  <HeadlessMenu.Item value='/trends'>{({ selected }) => …}</HeadlessMenu.Item>
 
-  <SidebarMenu.Sub value="inventory">
-    <SidebarMenu.SubTrigger>{({ active, open }) => …}</SidebarMenu.SubTrigger>
-    <SidebarMenu.SubContent>
-      <SidebarMenu.Item value="/inventory/products">…</SidebarMenu.Item>
-    </SidebarMenu.SubContent>
-  </SidebarMenu.Sub>
+  <HeadlessMenu.Sub value='inventory'>
+    <HeadlessMenu.SubTrigger>{({ active, open }) => …}</HeadlessMenu.SubTrigger>
+    <HeadlessMenu.SubContent>
+      <HeadlessMenu.Item value='/inventory/products'>…</HeadlessMenu.Item>
+    </HeadlessMenu.SubContent>
+  </HeadlessMenu.Sub>
 
-  <SidebarMenu.CollapseTrigger />
-</SidebarMenu>
+  <HeadlessMenu.CollapseTrigger />
+</HeadlessMenu>
 ```
 
 ### Submenu presentation (behavior from webp mockups)

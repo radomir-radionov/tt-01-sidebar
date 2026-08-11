@@ -2,7 +2,7 @@ import { useId, useMemo, type ReactElement, type ReactNode } from 'react'
 import { SubHostContext } from './context'
 import { SubRoot } from './SubRoot'
 
-export type SidebarMenuSubProps = {
+export type HeadlessMenuSubProps = {
   /** Stable id for open-state tracking (not the selected route value). */
   value: string
   disabled?: boolean
@@ -11,12 +11,12 @@ export type SidebarMenuSubProps = {
   children: ReactNode
 }
 
-export function SidebarMenuSub({
+export function HeadlessMenuSub({
   value,
   disabled = false,
   className,
   children,
-}: SidebarMenuSubProps): ReactElement {
+}: HeadlessMenuSubProps): ReactElement {
   const reactId = useId()
   const host = useMemo(
     () => ({

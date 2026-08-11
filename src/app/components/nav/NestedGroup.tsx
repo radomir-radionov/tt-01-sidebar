@@ -1,11 +1,11 @@
 import { createPortal } from 'react-dom'
 import { createContext, useContext, type ReactNode } from 'react'
 import {
-  SidebarMenu,
+  HeadlessMenu,
   useIsMobile,
-  useSidebarMenu,
+  useHeadlessMenu,
   type MenuSubRenderProps,
-} from '../../../sidebar-menu'
+} from '../../../headless-menu'
 import { SubPanel, subContentClass } from './SubPanel'
 import { SubTriggerView } from './SubTriggerView'
 
@@ -39,7 +39,7 @@ export function NestedGroup({
   children,
 }: NestedGroupProps) {
   const groupId = id ?? slugify(label)
-  const menu = useSidebarMenu()
+  const menu = useHeadlessMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
   const presentation = menu.submenuPresentation
@@ -53,7 +53,7 @@ export function NestedGroup({
     : 'relative mb-1'
 
   const panel = (
-    <SidebarMenu.SubContent
+    <HeadlessMenu.SubContent
       className={subContentClass(presentation, isMobile)}
     >
       <SubPanel title={label}>
@@ -61,13 +61,13 @@ export function NestedGroup({
           {children}
         </NestedGroupContext.Provider>
       </SubPanel>
-    </SidebarMenu.SubContent>
+    </HeadlessMenu.SubContent>
   )
 
   return (
-    <SidebarMenu.Sub value={groupId} className={subHostClass}>
+    <HeadlessMenu.Sub value={groupId} className={subHostClass}>
       <div className={isMobile ? 'flex h-full w-full' : undefined}>
-        <SidebarMenu.SubTrigger className={triggerClass}>
+        <HeadlessMenu.SubTrigger className={triggerClass}>
           {(props: MenuSubRenderProps) => (
             <SubTriggerView
               {...props}
@@ -77,17 +77,17 @@ export function NestedGroup({
               label={label}
             />
           )}
-        </SidebarMenu.SubTrigger>
+        </HeadlessMenu.SubTrigger>
 
         {isMobile
           ? createPortal(
               <>
                 {sheetOpen ? (
                   <button
-                    type="button"
-                    aria-label="Dismiss submenu"
-                    data-sheet-backdrop=""
-                    className="fixed inset-0 z-40 bg-black/40"
+                    type='button'
+                    aria-label='Dismiss submenu'
+                    data-sheet-backdrop=''
+                    className='fixed inset-0 z-40 bg-black/40'
                     onClick={() => menu.setSubOpen(groupId, false)}
                   />
                 ) : null}
@@ -97,6 +97,6 @@ export function NestedGroup({
             )
           : panel}
       </div>
-    </SidebarMenu.Sub>
+    </HeadlessMenu.Sub>
   )
 }

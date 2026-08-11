@@ -1,3 +1,3 @@
 export { useControllableState } from './useControllableState'
-export { useSidebarMenuControllableState } from './useSidebarMenuControllableState'
+export { useHeadlessMenuControllableState } from './useHeadlessMenuControllableState'
 export { useViewportMode } from './useViewportMode'

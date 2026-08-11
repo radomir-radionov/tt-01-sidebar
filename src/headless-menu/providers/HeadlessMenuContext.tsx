@@ -8,9 +8,9 @@ import {
   type ReactNode,
 } from 'react'
 import {
-  useSidebarMenuControllableState,
-  type SidebarMenuControllableProps,
-} from '../hooks/useSidebarMenuControllableState'
+  useHeadlessMenuControllableState,
+  type HeadlessMenuControllableProps,
+} from '../hooks/useHeadlessMenuControllableState'
 import { useViewportMode } from '../hooks/useViewportMode'
 import type { SubmenuPresentation } from '../types'
 import {
@@ -20,9 +20,9 @@ import {
   resolveOpenSubIds,
   resolveSubmenuPresentation,
   subHasValue,
-} from '../utils/sidebarMenu'
+} from '../utils/headlessMenu'
 
-export type SidebarMenuContextValue = {
+export type HeadlessMenuContextValue = {
   value: string | undefined
   setValue: (next: string) => void
   collapsed: boolean
@@ -34,7 +34,7 @@ export type SidebarMenuContextValue = {
   /** True when any submenu panel is manually open (sheet/flyout). */
   hasOpenSub: boolean
   setSubOpen: (subId: string, open: boolean) => void
-  /** Items register under their nearest Sub so parents can compute "active". */
+  /** Items register under their nearest Sub so parents can compute 'active'. */
   registerItem: (subId: string | null, itemValue: string) => () => void
   /**
    * SubContent registers a sync releaser so focus leaves the panel before
@@ -47,19 +47,19 @@ export type SidebarMenuContextValue = {
   isSubActive: (subId: string) => boolean
 }
 
-const SidebarMenuContext = createContext<SidebarMenuContextValue | null>(null)
+const HeadlessMenuContext = createContext<HeadlessMenuContextValue | null>(null)
 
-export type SidebarMenuProviderProps = SidebarMenuControllableProps & {
+export type HeadlessMenuProviderProps = HeadlessMenuControllableProps & {
   children: ReactNode
   /** matchMedia query for mobile mode (default max-width: 767px). */
   mobileQuery?: string
 }
 
-export function SidebarMenuProvider({
+export function HeadlessMenuProvider({
   children,
   mobileQuery,
   ...controllable
-}: SidebarMenuProviderProps) {
+}: HeadlessMenuProviderProps) {
   const isMobile = useViewportMode(mobileQuery) === 'mobile'
 
   const {
@@ -69,7 +69,7 @@ export function SidebarMenuProvider({
     setOpenSubIds,
     collapsed,
     setCollapsedState,
-  } = useSidebarMenuControllableState(controllable)
+  } = useHeadlessMenuControllableState(controllable)
 
   // Map subId -> descendant item values (for ancestor active highlighting).
   const [subItems, setSubItems] = useState<Record<string, string[]>>({})
@@ -124,7 +124,7 @@ export function SidebarMenuProvider({
     [submenuPresentation, openSubIds, subItems, value],
   )
 
-  const ctx = useMemo<SidebarMenuContextValue>(
+  const ctx = useMemo<HeadlessMenuContextValue>(
     () => ({
       value: value || undefined,
       setValue: (next) => {
@@ -183,21 +183,21 @@ export function SidebarMenuProvider({
   )
 
   return (
-    <SidebarMenuContext.Provider value={ctx}>
+    <HeadlessMenuContext.Provider value={ctx}>
       {children}
-    </SidebarMenuContext.Provider>
+    </HeadlessMenuContext.Provider>
   )
 }
 
-export function useSidebarMenu(): SidebarMenuContextValue {
-  const ctx = useContext(SidebarMenuContext)
+export function useHeadlessMenu(): HeadlessMenuContextValue {
+  const ctx = useContext(HeadlessMenuContext)
   if (!ctx) {
-    throw new Error('useSidebarMenu must be used within <SidebarMenu>')
+    throw new Error('useHeadlessMenu must be used within <HeadlessMenu>')
   }
   return ctx
 }
 
 /** Convenience alias used by consumers for viewport checks. */
 export function useIsMobile(): boolean {
-  return useSidebarMenu().isMobile
+  return useHeadlessMenu().isMobile
 }

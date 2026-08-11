@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { SubmenuPresentation } from '../../../sidebar-menu'
+import type { SubmenuPresentation } from '../../../headless-menu'
 import { iconWrap, itemActive, itemHovered, itemIdle, itemRow } from './itemStyles'
 import { Label } from './Label'
 
@@ -28,7 +28,7 @@ export function SubTriggerView({
         }`}
       >
         {icon ? <span className={iconWrap}>{icon}</span> : null}
-        <span className="whitespace-nowrap px-0.5">{label}</span>
+        <span className='whitespace-nowrap px-0.5'>{label}</span>
       </span>
     )
   }

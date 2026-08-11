@@ -1,15 +1,12 @@
 import { useState, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import {
-  SidebarMenu,
+  HeadlessMenu,
   useIsMobile,
-  useSidebarMenu,
+  useHeadlessMenu,
   type SubmenuPresentation,
-} from '../../sidebar-menu'
-import {
-  KnowledgeIcon,
-  SettingsIcon,
-} from '../../shared/assets/icons'
+} from '../../headless-menu'
+import { KnowledgeIcon, SettingsIcon } from '../../shared/assets/icons'
 import { NestedGroup, useNestedGroupId } from './nav/NestedGroup'
 import { NavItem } from './nav/NavItem'
 import { SidebarShell } from './nav/SidebarShell'
@@ -23,7 +20,7 @@ export type RouterMenuProps = {
 }
 
 /**
- * Product menu: SidebarMenu + React Router + HelloClient design.
+ * Product menu: HeadlessMenu + React Router + HelloClient design.
  * Business code only declares the tree — no value/handlers/classNames.
  */
 function RouterMenuRoot({
@@ -41,7 +38,7 @@ function RouterMenuRoot({
   const setCollapsed = onCollapsedChange ?? setUncontrolledCollapsed
 
   return (
-    <SidebarMenu
+    <HeadlessMenu
       value={location.pathname}
       onValueChange={(path) => navigate(path)}
       collapsed={collapsed}
@@ -50,14 +47,10 @@ function RouterMenuRoot({
       <SidebarShell
         footer={
           <>
+            <Item label='Settings' to='/settings' icon={<SettingsIcon />} />
             <Item
-              label="Settings"
-              to="/settings"
-              icon={<SettingsIcon />}
-            />
-            <Item
-              label="Knowledge Base"
-              to="/knowledge"
+              label='Knowledge Base'
+              to='/knowledge'
               icon={<KnowledgeIcon />}
             />
           </>
@@ -65,7 +58,7 @@ function RouterMenuRoot({
       >
         {children}
       </SidebarShell>
-    </SidebarMenu>
+    </HeadlessMenu>
   )
 }
 
@@ -79,16 +72,15 @@ function Item({
   icon?: ReactNode
 }) {
   const inGroup = useNestedGroupId() != null
-  const menu = useSidebarMenu()
+  const menu = useHeadlessMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
   const presentation = menu.submenuPresentation
 
   if (inGroup) {
-    const className =
-      presentation === 'inline' ? 'mb-1 w-full' : 'w-full'
+    const className = presentation === 'inline' ? 'mb-1 w-full' : 'w-full'
     return (
-      <SidebarMenu.Item value={to} className={className}>
+      <HeadlessMenu.Item value={to} className={className}>
         {({ selected }: { selected: boolean }) => (
           <NestedLeaf
             selected={selected}
@@ -96,7 +88,7 @@ function Item({
             presentation={presentation}
           />
         )}
-      </SidebarMenu.Item>
+      </HeadlessMenu.Item>
     )
   }
 
@@ -105,7 +97,7 @@ function Item({
     : 'relative mb-1 block w-full cursor-pointer'
 
   return (
-    <SidebarMenu.Item value={to} className={leafClass}>
+    <HeadlessMenu.Item value={to} className={leafClass}>
       {({ selected }: { selected: boolean }) => (
         <NavItem
           selected={selected}
@@ -115,7 +107,7 @@ function Item({
           mobile={isMobile}
         />
       )}
-    </SidebarMenu.Item>
+    </HeadlessMenu.Item>
   )
 }
 
@@ -145,9 +137,7 @@ function NestedLeaf({
     return (
       <span
         className={`block w-full cursor-pointer rounded-lg px-2.5 py-3 text-left text-[15px] leading-5 ${
-          selected
-            ? 'font-medium text-active'
-            : 'text-ink hover:bg-hover-bg'
+          selected ? 'font-medium text-active' : 'text-ink hover:bg-hover-bg'
         }`}
       >
         {label}

@@ -1,9 +1,9 @@
 import type { ButtonHTMLAttributes, ReactElement } from 'react'
-import { useSidebarMenu } from '../providers'
+import { useHeadlessMenu } from '../providers'
 import type { MenuCollapseRenderProps, SlotChildren } from '../types'
 import { resolveSlot } from '../utils/resolveSlot'
 
-export type SidebarMenuCollapseTriggerProps = Omit<
+export type HeadlessMenuCollapseTriggerProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'children'
 > & {
@@ -14,12 +14,12 @@ export type SidebarMenuCollapseTriggerProps = Omit<
  * Toggles desktop density: minimal (icons) ↔ wide (icons + labels).
  * Hidden/no-op on mobile — mobile uses bottom nav instead of density modes.
  */
-export function SidebarMenuCollapseTrigger({
+export function HeadlessMenuCollapseTrigger({
   children,
   onClick,
   ...rest
-}: SidebarMenuCollapseTriggerProps): ReactElement | null {
-  const menu = useSidebarMenu()
+}: HeadlessMenuCollapseTriggerProps): ReactElement | null {
+  const menu = useHeadlessMenu()
 
   if (menu.isMobile) return null
 
@@ -30,7 +30,7 @@ export function SidebarMenuCollapseTrigger({
 
   return (
     <button
-      type="button"
+      type='button'
       aria-label={menu.collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       aria-pressed={menu.collapsed}
       data-collapsed={menu.collapsed || undefined}

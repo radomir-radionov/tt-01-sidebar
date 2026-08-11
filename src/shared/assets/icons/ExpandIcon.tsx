@@ -4,8 +4,8 @@ import { Icon, type IconProps } from './Icon'
 export function ExpandIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M6 5v14" />
-      <path d="m10 8 4 4-4 4" />
+      <path d='M6 5v14' />
+      <path d='m10 8 4 4-4 4' />
     </Icon>
   )
 }

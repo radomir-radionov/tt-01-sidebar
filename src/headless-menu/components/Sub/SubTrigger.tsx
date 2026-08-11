@@ -4,12 +4,12 @@ import {
   type KeyboardEvent,
   type ReactElement,
 } from 'react'
-import { useSidebarMenu } from '../../providers'
+import { useHeadlessMenu } from '../../providers'
 import type { MenuSubRenderProps, SlotChildren } from '../../types'
 import { resolveSlot } from '../../utils/resolveSlot'
 import { FlyoutHoverContext, useSubHost } from './context'
 
-export type SidebarMenuSubTriggerProps = Omit<
+export type HeadlessMenuSubTriggerProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'children'
 > & {
@@ -22,15 +22,15 @@ export type SidebarMenuSubTriggerProps = Omit<
  * - sheet: click opens panel only (user picks a leaf)
  * - inline: click selects first child and keeps the panel open
  */
-export function SidebarMenuSubTrigger({
+export function HeadlessMenuSubTrigger({
   children,
   onClick,
   onKeyDown,
   onMouseEnter,
   onMouseLeave,
   ...rest
-}: SidebarMenuSubTriggerProps): ReactElement {
-  const menu = useSidebarMenu()
+}: HeadlessMenuSubTriggerProps): ReactElement {
+  const menu = useHeadlessMenu()
   const { subId, disabled, contentId } = useSubHost()
   const hover = useContext(FlyoutHoverContext)
   const active = menu.isSubActive(subId)
@@ -83,8 +83,8 @@ export function SidebarMenuSubTrigger({
 
   return (
     <button
-      type="button"
-      role="menuitem"
+      type='button'
+      role='menuitem'
       aria-haspopup={presentation === 'inline' ? 'true' : 'menu'}
       aria-expanded={open}
       aria-controls={contentId}

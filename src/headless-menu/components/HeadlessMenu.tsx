@@ -1,18 +1,18 @@
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
 import {
-  SidebarMenuProvider,
-  type SidebarMenuProviderProps,
+  HeadlessMenuProvider,
+  type HeadlessMenuProviderProps,
 } from '../providers'
-import { SidebarMenuItem } from './Item'
+import { HeadlessMenuItem } from './Item'
 import {
-  SidebarMenuSub,
-  SidebarMenuSubClose,
-  SidebarMenuSubContent,
-  SidebarMenuSubTrigger,
+  HeadlessMenuSub,
+  HeadlessMenuSubClose,
+  HeadlessMenuSubContent,
+  HeadlessMenuSubTrigger,
 } from './Sub/index'
-import { SidebarMenuCollapseTrigger } from './CollapseTrigger'
+import { HeadlessMenuCollapseTrigger } from './CollapseTrigger'
 
-export type SidebarMenuProps = SidebarMenuProviderProps &
+export type HeadlessMenuProps = HeadlessMenuProviderProps &
   Omit<HTMLAttributes<HTMLElement>, 'children' | 'defaultValue'> & {
     children: ReactNode
   }
@@ -21,7 +21,7 @@ export type SidebarMenuProps = SidebarMenuProviderProps &
  * Headless sidebar root. Provides selection, density, viewport, and submenu
  * open state — no styles. Compose with Item / Sub / CollapseTrigger in JSX.
  */
-function SidebarMenuRoot({
+function HeadlessMenuRoot({
   children,
   value,
   defaultValue,
@@ -34,9 +34,9 @@ function SidebarMenuRoot({
   onOpenSubIdsChange,
   mobileQuery,
   ...rest
-}: SidebarMenuProps): ReactElement {
+}: HeadlessMenuProps): ReactElement {
   return (
-    <SidebarMenuProvider
+    <HeadlessMenuProvider
       value={value}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
@@ -48,18 +48,18 @@ function SidebarMenuRoot({
       onOpenSubIdsChange={onOpenSubIdsChange}
       mobileQuery={mobileQuery}
     >
-      <nav role="navigation" aria-label="Sidebar" data-sidebar-menu="" {...rest}>
+      <nav role='navigation' aria-label='Sidebar' data-headless-menu='' {...rest}>
         {children}
       </nav>
-    </SidebarMenuProvider>
+    </HeadlessMenuProvider>
   )
 }
 
-export const SidebarMenu = Object.assign(SidebarMenuRoot, {
-  Item: SidebarMenuItem,
-  Sub: SidebarMenuSub,
-  SubTrigger: SidebarMenuSubTrigger,
-  SubContent: SidebarMenuSubContent,
-  SubClose: SidebarMenuSubClose,
-  CollapseTrigger: SidebarMenuCollapseTrigger,
+export const HeadlessMenu = Object.assign(HeadlessMenuRoot, {
+  Item: HeadlessMenuItem,
+  Sub: HeadlessMenuSub,
+  SubTrigger: HeadlessMenuSubTrigger,
+  SubContent: HeadlessMenuSubContent,
+  SubClose: HeadlessMenuSubClose,
+  CollapseTrigger: HeadlessMenuCollapseTrigger,
 })

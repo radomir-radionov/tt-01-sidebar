@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import {
-  SidebarMenu,
-  useSidebarMenu,
+  HeadlessMenu,
+  useHeadlessMenu,
   type SubmenuPresentation,
-} from '../../../sidebar-menu'
+} from '../../../headless-menu'
 import { CloseIcon } from '../../../shared/assets/icons'
 
 export function subContentClass(
@@ -31,12 +31,12 @@ export function SubPanel({
   title: string
   children: ReactNode
 }) {
-  const { submenuPresentation: presentation } = useSidebarMenu()
+  const { submenuPresentation: presentation } = useHeadlessMenu()
 
   if (presentation === 'flyout') {
     return (
-      <div className="min-w-[160px] rounded-[10px] border border-line bg-sidebar p-1.5 shadow-md">
-        <div className="px-2.5 py-1.5 text-[14px] font-semibold leading-5 text-ink">
+      <div className='min-w-[160px] rounded-[10px] border border-line bg-sidebar p-1.5 shadow-md'>
+        <div className='px-2.5 py-1.5 text-[14px] font-semibold leading-5 text-ink'>
           {title}
         </div>
         {children}
@@ -46,22 +46,22 @@ export function SubPanel({
 
   if (presentation === 'sheet') {
     return (
-      <div className="flex flex-col">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <div className="text-[17px] font-semibold leading-6 text-ink">
+      <div className='flex flex-col'>
+        <div className='mb-3 flex items-center justify-between gap-3'>
+          <div className='text-[17px] font-semibold leading-6 text-ink'>
             {title}
           </div>
-          <SidebarMenu.SubClose
-            className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted hover:bg-hover-bg hover:text-ink"
-            aria-label="Close"
+          <HeadlessMenu.SubClose
+            className='inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-muted hover:bg-hover-bg hover:text-ink'
+            aria-label='Close'
           >
             <CloseIcon />
-          </SidebarMenu.SubClose>
+          </HeadlessMenu.SubClose>
         </div>
-        <div className="flex flex-col">{children}</div>
+        <div className='flex flex-col'>{children}</div>
       </div>
     )
   }
 
-  return <div className="flex flex-col">{children}</div>
+  return <div className='flex flex-col'>{children}</div>
 }

@@ -1,21 +1,21 @@
 import type { ButtonHTMLAttributes, ReactElement } from 'react'
-import { useSidebarMenu } from '../../providers'
+import { useHeadlessMenu } from '../../providers'
 import { useSubHost } from './context'
 
-export type SidebarMenuSubCloseProps = ButtonHTMLAttributes<HTMLButtonElement>
+export type HeadlessMenuSubCloseProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 /** Explicit close control for mobile sheet overlays. */
-export function SidebarMenuSubClose({
+export function HeadlessMenuSubClose({
   onClick,
   children = 'Close',
   ...rest
-}: SidebarMenuSubCloseProps): ReactElement {
-  const menu = useSidebarMenu()
+}: HeadlessMenuSubCloseProps): ReactElement {
+  const menu = useHeadlessMenu()
   const { subId } = useSubHost()
 
   return (
     <button
-      type="button"
+      type='button'
       {...rest}
       onClick={(event) => {
         onClick?.(event)

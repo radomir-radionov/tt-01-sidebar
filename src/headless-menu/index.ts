@@ -1,13 +1,13 @@
 export {
-  SidebarMenu,
-  useSidebarMenu,
+  HeadlessMenu,
+  useHeadlessMenu,
   useIsMobile,
   useSubMenu,
   useControllableState,
   useViewportMode,
 } from './components'
 export type {
-  SidebarMenuProps,
+  HeadlessMenuProps,
   MenuCollapseRenderProps,
   MenuItemRenderProps,
   MenuSubRenderProps,

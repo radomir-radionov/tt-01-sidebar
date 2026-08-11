@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import {
-  SidebarMenu,
+  HeadlessMenu,
   useIsMobile,
-  useSidebarMenu,
-} from '../../../sidebar-menu'
+  useHeadlessMenu,
+} from '../../../headless-menu'
 import { CollapseIcon, ExpandIcon } from '../../../shared/assets/icons'
 import { itemRow } from './itemStyles'
 
@@ -35,7 +35,7 @@ function Chrome({
   children: ReactNode
   footer?: ReactNode
 }) {
-  const menu = useSidebarMenu()
+  const menu = useHeadlessMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
   const presentation = menu.submenuPresentation
@@ -51,8 +51,8 @@ function Chrome({
         collapsed ? 'w-[68px] overflow-visible' : 'w-[210px]'
       }`}
     >
-      <div className="shrink-0 overflow-hidden px-3 pt-3">
-        <div className="whitespace-nowrap rounded-[10px] px-2.5 py-2 text-left text-[16px] font-extrabold tracking-tight text-brand">
+      <div className='shrink-0 overflow-hidden px-3 pt-3'>
+        <div className='whitespace-nowrap rounded-[10px] px-2.5 py-2 text-left text-[16px] font-extrabold tracking-tight text-brand'>
           {collapsed ? 'HC' : 'HelloClient'}
         </div>
       </div>
@@ -72,27 +72,27 @@ function Chrome({
 
         {footer ? (
           <>
-            <div className="my-2 border-t border-line" role="separator" />
+            <div className='my-2 border-t border-line' role='separator' />
             {footer}
           </>
         ) : null}
 
-        <div className="my-2 border-t border-line" role="separator" />
+        <div className='my-2 border-t border-line' role='separator' />
 
-        <SidebarMenu.CollapseTrigger
+        <HeadlessMenu.CollapseTrigger
           className={`${itemRow} text-muted hover:bg-hover-bg hover:text-ink`}
         >
           {({ collapsed: isCollapsed }) =>
             isCollapsed ? <ExpandIcon /> : <CollapseIcon />
           }
-        </SidebarMenu.CollapseTrigger>
+        </HeadlessMenu.CollapseTrigger>
       </div>
     </div>
   )
 }
 
 function MobileChrome({ children }: { children: ReactNode }) {
-  const menu = useSidebarMenu()
+  const menu = useHeadlessMenu()
   const sheetOpen = menu.hasOpenSub
 
   return (

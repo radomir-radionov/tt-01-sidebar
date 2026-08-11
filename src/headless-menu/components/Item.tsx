@@ -4,12 +4,12 @@ import {
   type KeyboardEvent,
   type ReactElement,
 } from 'react'
-import { useSidebarMenu } from '../providers'
+import { useHeadlessMenu } from '../providers'
 import type { MenuItemRenderProps, SlotChildren } from '../types'
 import { resolveSlot } from '../utils/resolveSlot'
 import { useSubMenu } from './Sub/index'
 
-export type SidebarMenuItemProps = Omit<
+export type HeadlessMenuItemProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'children' | 'value'
 > & {
@@ -23,15 +23,15 @@ export type SidebarMenuItemProps = Omit<
  * Selectable leaf. Consumer supplies visuals (and Link wrappers) via children /
  * render props — this component only owns selection + a11y attributes.
  */
-export function SidebarMenuItem({
+export function HeadlessMenuItem({
   value,
   disabled = false,
   children,
   onClick,
   onKeyDown,
   ...rest
-}: SidebarMenuItemProps): ReactElement {
-  const menu = useSidebarMenu()
+}: HeadlessMenuItemProps): ReactElement {
+  const menu = useHeadlessMenu()
   const sub = useSubMenu()
   const registerItem = menu.registerItem
   const subId = sub?.subId ?? null
@@ -64,8 +64,8 @@ export function SidebarMenuItem({
 
   return (
     <button
-      type="button"
-      role="menuitem"
+      type='button'
+      role='menuitem'
       data-selected={selected || undefined}
       data-active={selected || undefined}
       data-disabled={disabled || undefined}
