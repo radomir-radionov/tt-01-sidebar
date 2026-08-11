@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import type { MenuItemRenderProps } from '../../../sidebar-menu'
 import { HoverBadge } from './HoverBadge'
 import { iconWrap, itemActive, itemIdle, itemRow } from './itemStyles'
 import { Label } from './Label'
@@ -10,9 +9,10 @@ export function NavItem({
   icon,
   label,
   mobile = false,
-}: MenuItemRenderProps & {
+}: {
+  selected: boolean
   collapsed: boolean
-  icon: ReactNode
+  icon?: ReactNode
   label: string
   mobile?: boolean
 }) {
@@ -23,7 +23,7 @@ export function NavItem({
           selected ? itemActive : itemIdle
         }`}
       >
-        <span className={iconWrap}>{icon}</span>
+        {icon ? <span className={iconWrap}>{icon}</span> : null}
         <span className="whitespace-nowrap px-0.5">{label}</span>
       </span>
     )
@@ -33,7 +33,7 @@ export function NavItem({
     <span
       className={`group relative ${itemRow} ${selected ? itemActive : itemIdle}`}
     >
-      <span className={iconWrap}>{icon}</span>
+      {icon ? <span className={iconWrap}>{icon}</span> : null}
       <Label show={!collapsed}>{label}</Label>
       {collapsed ? <HoverBadge label={label} /> : null}
     </span>

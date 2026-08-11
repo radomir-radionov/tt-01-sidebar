@@ -1,28 +1,35 @@
-import { useIsMobile, useSidebarMenu } from '../../../sidebar-menu'
-import { MenuTree } from './MenuTree'
+import type { ReactNode } from 'react'
+import {
+  SidebarMenu,
+  useIsMobile,
+  useSidebarMenu,
+} from '../../../sidebar-menu'
+import { CollapseIcon, ExpandIcon } from '../../../shared/assets/icons'
+import { itemRow } from './itemStyles'
 
-/** Owns layout classes so viewport comes from the menu provider (one matchMedia). */
-export function SidebarShell() {
+/**
+ * HelloClient chrome around the menu tree.
+ * Collapse control is product chrome — not business markup.
+ */
+export function SidebarShell({ children }: { children: ReactNode }) {
   const isMobile = useIsMobile()
   return (
     <div
-      className={
-        isMobile ? 'contents' : 'relative h-full overflow-visible'
-      }
+      className={isMobile ? 'contents' : 'relative h-full overflow-visible'}
     >
-      <SidebarChrome />
+      <Chrome>{children}</Chrome>
     </div>
   )
 }
 
-function SidebarChrome() {
+function Chrome({ children }: { children: ReactNode }) {
   const menu = useSidebarMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
   const presentation = menu.submenuPresentation
 
   if (isMobile) {
-    return <MobileChrome presentation={presentation} />
+    return <MobileChrome>{children}</MobileChrome>
   }
 
   return (
@@ -31,7 +38,6 @@ function SidebarChrome() {
         collapsed ? 'w-[68px] overflow-visible' : 'w-[210px]'
       }`}
     >
-      {/* Same left padding as nav rows — clip to "HC" when collapsed (sources/image.webp) */}
       <div className="shrink-0 overflow-hidden px-3 pt-3">
         <div className="whitespace-nowrap rounded-[10px] px-2.5 py-2 text-left text-[16px] font-extrabold tracking-tight text-brand">
           {collapsed ? 'HC' : 'HelloClient'}
@@ -49,19 +55,24 @@ function SidebarChrome() {
             : 'overflow-y-auto overflow-x-hidden'
         }`}
       >
-        <MenuTree collapsed={collapsed} presentation={presentation} />
+        {children}
+
+        <div className="my-2 border-t border-line" role="separator" />
+
+        <SidebarMenu.CollapseTrigger
+          className={`${itemRow} text-muted hover:bg-hover-bg hover:text-ink`}
+        >
+          {({ collapsed: isCollapsed }) =>
+            isCollapsed ? <ExpandIcon /> : <CollapseIcon />
+          }
+        </SidebarMenu.CollapseTrigger>
       </div>
     </div>
   )
 }
 
-function MobileChrome({
-  presentation,
-}: {
-  presentation: ReturnType<typeof useSidebarMenu>['submenuPresentation']
-}) {
+function MobileChrome({ children }: { children: ReactNode }) {
   const menu = useSidebarMenu()
-  // Sheet replaces the bottom nav (mobile "sidebar") while a sub is open.
   const sheetOpen = menu.hasOpenSub
 
   return (
@@ -79,7 +90,7 @@ function MobileChrome({
             : 'flex items-stretch gap-0.5 overflow-x-auto overscroll-x-contain px-1 py-1 [-webkit-overflow-scrolling:touch]'
         }
       >
-        <MenuTree collapsed presentation={presentation} mobile />
+        {children}
       </div>
     </div>
   )

@@ -1,66 +1,85 @@
 import { createPortal } from 'react-dom'
-import type { ReactNode } from 'react'
-import { SidebarMenu, useSidebarMenu } from '../../../sidebar-menu'
+import { createContext, useContext, type ReactNode } from 'react'
+import {
+  SidebarMenu,
+  useIsMobile,
+  useSidebarMenu,
+  type MenuSubRenderProps,
+} from '../../../sidebar-menu'
 import { SubPanel, subContentClass } from './SubPanel'
 import { SubTriggerView } from './SubTriggerView'
 
+const NestedGroupContext = createContext<string | null>(null)
+
+/** True when rendering under a NestedGroup panel. */
+export function useNestedGroupId(): string | null {
+  return useContext(NestedGroupContext)
+}
+
+export type NestedGroupProps = {
+  label: string
+  icon?: ReactNode
+  /** Stable sub id; defaults to a slug of `label`. */
+  id?: string
+  children: ReactNode
+}
+
+function slugify(label: string): string {
+  return label
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 export function NestedGroup({
-  id,
   label,
   icon,
-  collapsed,
-  presentation,
-  mobile,
-  items,
-}: {
-  id: string
-  label: string
-  icon: ReactNode
-  collapsed: boolean
-  presentation: ReturnType<typeof useSidebarMenu>['submenuPresentation']
-  mobile: boolean
-  items: { value: string; label: string }[]
-}) {
-  const triggerClass = mobile
+  id,
+  children,
+}: NestedGroupProps) {
+  const groupId = id ?? slugify(label)
+  const menu = useSidebarMenu()
+  const isMobile = useIsMobile()
+  const collapsed = menu.collapsed
+  const presentation = menu.submenuPresentation
+  const sheetOpen = presentation === 'sheet' && menu.isSubOpen(groupId)
+
+  const triggerClass = isMobile
     ? 'flex h-full w-full min-w-0 cursor-pointer flex-col items-center'
     : 'relative mb-1 block w-full cursor-pointer'
-  const menu = useSidebarMenu()
-  const sheetOpen = presentation === 'sheet' && menu.isSubOpen(id)
-  // className must land on SubRoot (flex child of the bar) — not an inner wrapper.
-  const subHostClass = mobile
+  const subHostClass = isMobile
     ? 'relative min-w-16 shrink-0 flex-1 basis-16'
     : 'relative mb-1'
 
   const panel = (
     <SidebarMenu.SubContent
-      className={subContentClass(presentation, mobile)}
+      className={subContentClass(presentation, isMobile)}
     >
-      {(props) => (
-        <SubPanel
-          title={label}
-          presentation={props.presentation}
-          items={items}
-        />
-      )}
+      <SubPanel title={label}>
+        <NestedGroupContext.Provider value={groupId}>
+          {children}
+        </NestedGroupContext.Provider>
+      </SubPanel>
     </SidebarMenu.SubContent>
   )
 
   return (
-    <SidebarMenu.Sub value={id} className={subHostClass}>
-      <div className={mobile ? 'flex h-full w-full' : undefined}>
+    <SidebarMenu.Sub value={groupId} className={subHostClass}>
+      <div className={isMobile ? 'flex h-full w-full' : undefined}>
         <SidebarMenu.SubTrigger className={triggerClass}>
-          {(props) => (
+          {(props: MenuSubRenderProps) => (
             <SubTriggerView
               {...props}
               collapsed={collapsed}
-              mobile={mobile}
+              mobile={isMobile}
               icon={icon}
               label={label}
             />
           )}
         </SidebarMenu.SubTrigger>
 
-        {mobile
+        {isMobile
           ? createPortal(
               <>
                 {sheetOpen ? (
@@ -69,7 +88,7 @@ export function NestedGroup({
                     aria-label="Dismiss submenu"
                     data-sheet-backdrop=""
                     className="fixed inset-0 z-40 bg-black/40"
-                    onClick={() => menu.setSubOpen(id, false)}
+                    onClick={() => menu.setSubOpen(groupId, false)}
                   />
                 ) : null}
                 {panel}

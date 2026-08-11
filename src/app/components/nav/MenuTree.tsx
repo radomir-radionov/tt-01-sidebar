@@ -1,8 +1,7 @@
-import { SidebarMenu, useSidebarMenu } from '../../../sidebar-menu'
+import { RouterMenu } from "../RouterMenu";
+import { useIsMobile } from "../../../sidebar-menu";
 import {
   ClientsIcon,
-  CollapseIcon,
-  ExpandIcon,
   InventoryIcon,
   KnowledgeIcon,
   PaymentsIcon,
@@ -13,178 +12,58 @@ import {
   TenderIcon,
   TicketsIcon,
   TrendsIcon,
-} from '../../../shared/assets/icons'
-import { itemRow } from './itemStyles'
-import { NavItem } from './NavItem'
-import { NestedGroup } from './NestedGroup'
+} from "../../../shared/assets/icons";
 
-export function MenuTree({
-  collapsed,
-  presentation,
-  mobile = false,
-}: {
-  collapsed: boolean
-  presentation: ReturnType<typeof useSidebarMenu>['submenuPresentation']
-  mobile?: boolean
-}) {
-  // Equal cells that refuse to shrink below a readable label width — overflow scrolls.
-  const leafClass = mobile
-    ? 'flex min-w-16 shrink-0 flex-1 basis-16 cursor-pointer flex-col items-center'
-    : 'relative mb-1 block w-full cursor-pointer'
+/**
+ * Menu tree — structure only.
+ * Active route, navigation, and HelloClient paint live in RouterMenu.
+ */
+export function MenuTree() {
+  const isMobile = useIsMobile();
 
-  // Order + nesting from sources/image-*.webp (HelloClient mockups)
   return (
     <>
-      <SidebarMenu.Item value="/trends" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<TrendsIcon />}
-            label="Trends"
-          />
-        )}
-      </SidebarMenu.Item>
-
-      <SidebarMenu.Item value="/tasks" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<TasksIcon />}
-            label="Tasks"
-          />
-        )}
-      </SidebarMenu.Item>
-
-      <SidebarMenu.Item value="/tickets" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<TicketsIcon />}
-            label="Tickets"
-          />
-        )}
-      </SidebarMenu.Item>
-
-      <SidebarMenu.Item value="/payments" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<PaymentsIcon />}
-            label="Payments"
-          />
-        )}
-      </SidebarMenu.Item>
-
-      <NestedGroup
-        id="clients"
-        label="Clients"
-        icon={<ClientsIcon />}
-        collapsed={collapsed}
-        presentation={presentation}
-        mobile={mobile}
-        items={[
-          { value: '/clients/list', label: 'List' },
-          { value: '/clients/reviews', label: 'Reviews' },
-          { value: '/clients/notifications', label: 'Notifications' },
-        ]}
+      <RouterMenu.Item label="Trends" to="/trends" icon={<TrendsIcon />} />
+      <RouterMenu.Item label="Tasks" to="/tasks" icon={<TasksIcon />} />
+      <RouterMenu.Item label="Tickets" to="/tickets" icon={<TicketsIcon />} />
+      <RouterMenu.Item
+        label="Payments"
+        to="/payments"
+        icon={<PaymentsIcon />}
       />
 
-      <NestedGroup
-        id="inventory"
-        label="Inventory"
-        icon={<InventoryIcon />}
-        collapsed={collapsed}
-        presentation={presentation}
-        mobile={mobile}
-        items={[
-          { value: '/inventory/products', label: 'Products' },
-          { value: '/inventory/orders', label: 'Orders' },
-          { value: '/inventory/suppliers', label: 'Suppliers' },
-        ]}
-      />
+      <RouterMenu.Group label="Clients" icon={<ClientsIcon />}>
+        <RouterMenu.Item label="List" to="/clients/list" />
+        <RouterMenu.Item label="Reviews" to="/clients/reviews" />
+        <RouterMenu.Item label="Notifications" to="/clients/notifications" />
+      </RouterMenu.Group>
 
-      <SidebarMenu.Item value="/shop" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<ShopIcon />}
-            label="Shop"
-          />
-        )}
-      </SidebarMenu.Item>
+      <RouterMenu.Group label="Inventory" icon={<InventoryIcon />}>
+        <RouterMenu.Item label="Products" to="/inventory/products" />
+        <RouterMenu.Item label="Orders" to="/inventory/orders" />
+        <RouterMenu.Item label="Suppliers" to="/inventory/suppliers" />
+      </RouterMenu.Group>
 
-      <SidebarMenu.Item value="/reports" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<ReportsIcon />}
-            label="Reports"
-          />
-        )}
-      </SidebarMenu.Item>
+      <RouterMenu.Item label="Shop" to="/shop" icon={<ShopIcon />} />
+      <RouterMenu.Item label="Reports" to="/reports" icon={<ReportsIcon />} />
+      <RouterMenu.Item label="Tender" to="/tender" icon={<TenderIcon />} />
 
-      <SidebarMenu.Item value="/tender" className={leafClass}>
-        {(props) => (
-          <NavItem
-            {...props}
-            collapsed={collapsed}
-            mobile={mobile}
-            icon={<TenderIcon />}
-            label="Tender"
-          />
-        )}
-      </SidebarMenu.Item>
-
-      {!mobile && (
+      {!isMobile && (
         <>
           <div className="my-2 border-t border-line" role="separator" />
 
-          <SidebarMenu.Item value="/settings" className={leafClass}>
-            {(props) => (
-              <NavItem
-                {...props}
-                collapsed={collapsed}
-                icon={<SettingsIcon />}
-                label="Settings"
-              />
-            )}
-          </SidebarMenu.Item>
-
-          <SidebarMenu.Item value="/knowledge" className={leafClass}>
-            {(props) => (
-              <NavItem
-                {...props}
-                collapsed={collapsed}
-                icon={<KnowledgeIcon />}
-                label="Knowledge Base"
-              />
-            )}
-          </SidebarMenu.Item>
-
-          {/* Collapse sits directly under Knowledge Base (desktop ref) */}
-          <div className="my-2 border-t border-line" role="separator" />
-
-          <SidebarMenu.CollapseTrigger
-            className={`${itemRow} text-muted hover:bg-hover-bg hover:text-ink`}
-          >
-            {({ collapsed: isCollapsed }) =>
-              isCollapsed ? <ExpandIcon /> : <CollapseIcon />
-            }
-          </SidebarMenu.CollapseTrigger>
+          <RouterMenu.Item
+            label="Settings"
+            to="/settings"
+            icon={<SettingsIcon />}
+          />
+          <RouterMenu.Item
+            label="Knowledge Base"
+            to="/knowledge"
+            icon={<KnowledgeIcon />}
+          />
         </>
       )}
     </>
-  )
+  );
 }

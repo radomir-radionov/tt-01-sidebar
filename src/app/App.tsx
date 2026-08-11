@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router'
-import { AppSidebar } from './components/AppSidebar'
+import { AppSidebar } from './AppSidebar'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 
 export function App() {

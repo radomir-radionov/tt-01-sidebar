@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { MenuSubRenderProps } from '../../../sidebar-menu'
+import type { SubmenuPresentation } from '../../../sidebar-menu'
 import { iconWrap, itemActive, itemHovered, itemIdle, itemRow } from './itemStyles'
 import { Label } from './Label'
 
@@ -11,9 +11,12 @@ export function SubTriggerView({
   icon,
   label,
   mobile = false,
-}: MenuSubRenderProps & {
+}: {
+  active: boolean
+  open: boolean
+  presentation: SubmenuPresentation
   collapsed: boolean
-  icon: ReactNode
+  icon?: ReactNode
   label: string
   mobile?: boolean
 }) {
@@ -24,7 +27,7 @@ export function SubTriggerView({
           active ? itemActive : itemIdle
         }`}
       >
-        <span className={iconWrap}>{icon}</span>
+        {icon ? <span className={iconWrap}>{icon}</span> : null}
         <span className="whitespace-nowrap px-0.5">{label}</span>
       </span>
     )
@@ -38,9 +41,8 @@ export function SubTriggerView({
     <span
       className={`group relative ${itemRow} ${active ? itemActive : idle}`}
     >
-      <span className={iconWrap}>{icon}</span>
+      {icon ? <span className={iconWrap}>{icon}</span> : null}
       <Label show={!collapsed}>{label}</Label>
-      {/* Nested parents use the flyout/inline panel for the label — never HoverBadge. */}
     </span>
   )
 }
