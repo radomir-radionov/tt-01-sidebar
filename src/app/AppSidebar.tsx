@@ -15,12 +15,35 @@ import {
 } from "../shared/assets/icons";
 
 /**
+ * Must render inside RouterMenu — useIsMobile reads SidebarMenu context.
+ * Settings / Knowledge are desktop-only (mobile bottom nav omits them).
+ */
+function DesktopOnlyFooter() {
+  const isMobile = useIsMobile();
+  if (isMobile) return null;
+
+  return (
+    <>
+      <div className="my-2 border-t border-line" role="separator" />
+      <RouterMenu.Item
+        label="Settings"
+        to="/settings"
+        icon={<SettingsIcon />}
+      />
+      <RouterMenu.Item
+        label="Knowledge Base"
+        to="/knowledge"
+        icon={<KnowledgeIcon />}
+      />
+    </>
+  );
+}
+
+/**
  * Business sidebar — tree only.
  * Active route, navigation, and HelloClient paint live in RouterMenu.
  */
 export function AppSidebar() {
-  const isMobile = useIsMobile();
-
   return (
     <RouterMenu>
       <RouterMenu.Item label="Trends" to="/trends" icon={<TrendsIcon />} />
@@ -48,22 +71,7 @@ export function AppSidebar() {
       <RouterMenu.Item label="Reports" to="/reports" icon={<ReportsIcon />} />
       <RouterMenu.Item label="Tender" to="/tender" icon={<TenderIcon />} />
 
-      {!isMobile && (
-        <>
-          <div className="my-2 border-t border-line" role="separator" />
-
-          <RouterMenu.Item
-            label="Settings"
-            to="/settings"
-            icon={<SettingsIcon />}
-          />
-          <RouterMenu.Item
-            label="Knowledge Base"
-            to="/knowledge"
-            icon={<KnowledgeIcon />}
-          />
-        </>
-      )}
+      <DesktopOnlyFooter />
     </RouterMenu>
   );
 }
