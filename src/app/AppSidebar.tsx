@@ -2,10 +2,8 @@ import { RouterMenu } from "./components/RouterMenu";
 import {
   ClientsIcon,
   InventoryIcon,
-  KnowledgeIcon,
   PaymentsIcon,
   ReportsIcon,
-  SettingsIcon,
   ShopIcon,
   TasksIcon,
   TenderIcon,
@@ -14,8 +12,8 @@ import {
 } from "../shared/assets/icons";
 
 /**
- * Business sidebar — tree only.
- * Active route, navigation, and HelloClient paint live in RouterMenu.
+ * Business sidebar — tree only (Item / Group).
+ * Settings / Knowledge live in SidebarShell as HelloClient product chrome.
  */
 export function AppSidebar() {
   return (
@@ -44,19 +42,6 @@ export function AppSidebar() {
       <RouterMenu.Item label="Shop" to="/shop" icon={<ShopIcon />} />
       <RouterMenu.Item label="Reports" to="/reports" icon={<ReportsIcon />} />
       <RouterMenu.Item label="Tender" to="/tender" icon={<TenderIcon />} />
-
-      <RouterMenu.DesktopOnly>
-        <RouterMenu.Item
-          label="Settings"
-          to="/settings"
-          icon={<SettingsIcon />}
-        />
-        <RouterMenu.Item
-          label="Knowledge Base"
-          to="/knowledge"
-          icon={<KnowledgeIcon />}
-        />
-      </RouterMenu.DesktopOnly>
     </RouterMenu>
   );
 }

@@ -6,6 +6,10 @@ import {
   useSidebarMenu,
   type SubmenuPresentation,
 } from '../../sidebar-menu'
+import {
+  KnowledgeIcon,
+  SettingsIcon,
+} from '../../shared/assets/icons'
 import { NestedGroup, useNestedGroupId } from './nav/NestedGroup'
 import { NavItem } from './nav/NavItem'
 import { SidebarShell } from './nav/SidebarShell'
@@ -43,7 +47,24 @@ function RouterMenuRoot({
       collapsed={collapsed}
       onCollapsedChange={setCollapsed}
     >
-      <SidebarShell>{children}</SidebarShell>
+      <SidebarShell
+        footer={
+          <>
+            <Item
+              label="Settings"
+              to="/settings"
+              icon={<SettingsIcon />}
+            />
+            <Item
+              label="Knowledge Base"
+              to="/knowledge"
+              icon={<KnowledgeIcon />}
+            />
+          </>
+        }
+      >
+        {children}
+      </SidebarShell>
     </SidebarMenu>
   )
 }
@@ -151,24 +172,7 @@ function NestedLeaf({
   )
 }
 
-/**
- * Product chrome: hide children on mobile (bottom nav) and paint the section rule.
- * Keeps viewport / classNames out of the business tree.
- */
-function DesktopOnly({ children }: { children: ReactNode }) {
-  const isMobile = useIsMobile()
-  if (isMobile) return null
-
-  return (
-    <>
-      <div className="my-2 border-t border-line" role="separator" />
-      {children}
-    </>
-  )
-}
-
 export const RouterMenu = Object.assign(RouterMenuRoot, {
   Item,
   Group: NestedGroup,
-  DesktopOnly,
 })

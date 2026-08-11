@@ -7,28 +7,41 @@ import {
 import { CollapseIcon, ExpandIcon } from '../../../shared/assets/icons'
 import { itemRow } from './itemStyles'
 
+export type SidebarShellProps = {
+  children: ReactNode
+  /** Desktop-only slot below the business tree (e.g. utility links). Not shown on mobile. */
+  footer?: ReactNode
+}
+
 /**
- * HelloClient chrome around the menu tree.
- * Collapse control is product chrome — not business markup.
+ * HelloClient layout chrome around the menu tree.
+ * Brand + collapse only — app-specific links come from `footer` (RouterMenu).
  */
-export function SidebarShell({ children }: { children: ReactNode }) {
+export function SidebarShell({ children, footer }: SidebarShellProps) {
   const isMobile = useIsMobile()
   return (
     <div
       className={isMobile ? 'contents' : 'relative h-full overflow-visible'}
     >
-      <Chrome>{children}</Chrome>
+      <Chrome footer={footer}>{children}</Chrome>
     </div>
   )
 }
 
-function Chrome({ children }: { children: ReactNode }) {
+function Chrome({
+  children,
+  footer,
+}: {
+  children: ReactNode
+  footer?: ReactNode
+}) {
   const menu = useSidebarMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
   const presentation = menu.submenuPresentation
 
   if (isMobile) {
+    // Footer intentionally omitted — mobile bottom nav is business tree only.
     return <MobileChrome>{children}</MobileChrome>
   }
 
@@ -56,6 +69,13 @@ function Chrome({ children }: { children: ReactNode }) {
         }`}
       >
         {children}
+
+        {footer ? (
+          <>
+            <div className="my-2 border-t border-line" role="separator" />
+            {footer}
+          </>
+        ) : null}
 
         <div className="my-2 border-t border-line" role="separator" />
 
