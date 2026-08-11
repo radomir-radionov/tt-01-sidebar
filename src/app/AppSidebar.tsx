@@ -1,5 +1,4 @@
 import { RouterMenu } from "./components/RouterMenu";
-import { useIsMobile } from "../sidebar-menu";
 import {
   ClientsIcon,
   InventoryIcon,
@@ -13,31 +12,6 @@ import {
   TicketsIcon,
   TrendsIcon,
 } from "../shared/assets/icons";
-
-/**
- * Must render inside RouterMenu — useIsMobile reads SidebarMenu context.
- * Settings / Knowledge are desktop-only (mobile bottom nav omits them).
- */
-function DesktopOnlyFooter() {
-  const isMobile = useIsMobile();
-  if (isMobile) return null;
-
-  return (
-    <>
-      <div className="my-2 border-t border-line" role="separator" />
-      <RouterMenu.Item
-        label="Settings"
-        to="/settings"
-        icon={<SettingsIcon />}
-      />
-      <RouterMenu.Item
-        label="Knowledge Base"
-        to="/knowledge"
-        icon={<KnowledgeIcon />}
-      />
-    </>
-  );
-}
 
 /**
  * Business sidebar — tree only.
@@ -71,7 +45,18 @@ export function AppSidebar() {
       <RouterMenu.Item label="Reports" to="/reports" icon={<ReportsIcon />} />
       <RouterMenu.Item label="Tender" to="/tender" icon={<TenderIcon />} />
 
-      <DesktopOnlyFooter />
+      <RouterMenu.DesktopOnly>
+        <RouterMenu.Item
+          label="Settings"
+          to="/settings"
+          icon={<SettingsIcon />}
+        />
+        <RouterMenu.Item
+          label="Knowledge Base"
+          to="/knowledge"
+          icon={<KnowledgeIcon />}
+        />
+      </RouterMenu.DesktopOnly>
     </RouterMenu>
   );
 }

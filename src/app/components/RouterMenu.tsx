@@ -151,7 +151,24 @@ function NestedLeaf({
   )
 }
 
+/**
+ * Product chrome: hide children on mobile (bottom nav) and paint the section rule.
+ * Keeps viewport / classNames out of the business tree.
+ */
+function DesktopOnly({ children }: { children: ReactNode }) {
+  const isMobile = useIsMobile()
+  if (isMobile) return null
+
+  return (
+    <>
+      <div className="my-2 border-t border-line" role="separator" />
+      {children}
+    </>
+  )
+}
+
 export const RouterMenu = Object.assign(RouterMenuRoot, {
   Item,
   Group: NestedGroup,
+  DesktopOnly,
 })

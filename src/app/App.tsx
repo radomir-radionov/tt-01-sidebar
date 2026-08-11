@@ -1,6 +1,6 @@
-import { Navigate, Route, Routes } from 'react-router'
-import { AppSidebar } from './AppSidebar'
-import { PlaceholderPage } from './pages/PlaceholderPage'
+import { Navigate, Route, Routes } from "react-router";
+import { AppSidebar } from "./AppSidebar";
+import { PlaceholderPage } from "./pages/PlaceholderPage";
 
 export function App() {
   return (
@@ -36,5 +36,5 @@ export function App() {
         </main>
       </div>
     </div>
-  )
+  );
 }
