@@ -7,7 +7,7 @@ import {
   type SubmenuPresentation,
 } from '../../headless-menu'
 import { KnowledgeIcon, SettingsIcon } from '../../shared/assets/icons'
-import { NestedGroup, useNestedGroupId } from './nav/NestedGroup'
+import { Group, useGroupId } from './nav/Group'
 import { NavItem } from './nav/NavItem'
 import { SidebarShell } from './nav/SidebarShell'
 import { itemActive, itemIdle } from './nav/itemStyles'
@@ -71,7 +71,7 @@ function Item({
   label: string
   icon?: ReactNode
 }) {
-  const inGroup = useNestedGroupId() != null
+  const inGroup = useGroupId() != null
   const menu = useHeadlessMenu()
   const isMobile = useIsMobile()
   const collapsed = menu.collapsed
@@ -137,7 +137,9 @@ function NestedLeaf({
     return (
       <span
         className={`block w-full cursor-pointer rounded-lg px-2.5 py-3 text-left text-[15px] leading-5 ${
-          selected ? 'font-medium text-active' : 'text-ink hover:bg-hover-bg'
+          selected
+            ? 'bg-active-bg font-medium text-active'
+            : 'text-ink hover:bg-hover-bg'
         }`}
       >
         {label}
@@ -164,5 +166,5 @@ function NestedLeaf({
 
 export const RouterMenu = Object.assign(RouterMenuRoot, {
   Item,
-  Group: NestedGroup,
+  Group,
 })

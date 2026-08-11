@@ -9,14 +9,14 @@ import {
 import { SubPanel, subContentClass } from './SubPanel'
 import { SubTriggerView } from './SubTriggerView'
 
-const NestedGroupContext = createContext<string | null>(null)
+const GroupContext = createContext<string | null>(null)
 
-/** True when rendering under a NestedGroup panel. */
-export function useNestedGroupId(): string | null {
-  return useContext(NestedGroupContext)
+/** True when rendering under a Group panel. */
+export function useGroupId(): string | null {
+  return useContext(GroupContext)
 }
 
-export type NestedGroupProps = {
+export type GroupProps = {
   label: string
   icon?: ReactNode
   /** Stable sub id; defaults to a slug of `label`. */
@@ -32,12 +32,7 @@ function slugify(label: string): string {
     .replace(/^-|-$/g, '')
 }
 
-export function NestedGroup({
-  label,
-  icon,
-  id,
-  children,
-}: NestedGroupProps) {
+export function Group({ label, icon, id, children }: GroupProps) {
   const groupId = id ?? slugify(label)
   const menu = useHeadlessMenu()
   const isMobile = useIsMobile()
@@ -57,9 +52,7 @@ export function NestedGroup({
       className={subContentClass(presentation, isMobile)}
     >
       <SubPanel title={label}>
-        <NestedGroupContext.Provider value={groupId}>
-          {children}
-        </NestedGroupContext.Provider>
+        <GroupContext.Provider value={groupId}>{children}</GroupContext.Provider>
       </SubPanel>
     </HeadlessMenu.SubContent>
   )
