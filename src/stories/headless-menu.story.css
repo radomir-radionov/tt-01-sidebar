@@ -1,0 +1,138 @@
+/* Story-only chrome — not part of the headless package contract. */
+
+.hm-story-root {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.hm-story-menu {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.hm-story-menu--mobile {
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+}
+
+.hm-story-debug {
+  min-width: 180px;
+  padding: 12px;
+  border: 1px solid #d0d0d0;
+  background: #f7f7f7;
+  line-height: 1.5;
+}
+
+.hm-story-debug strong {
+  display: inline-block;
+  min-width: 7.5rem;
+  font-weight: 600;
+}
+
+.hm-story-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 220px;
+  padding: 12px;
+  border: 1px solid #c8c8c8;
+  background: #fff;
+}
+
+.hm-story-menu--mobile .hm-story-tree {
+  order: 2;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.hm-story-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.hm-story-item:hover:not(:disabled) {
+  background: #eee;
+}
+
+.hm-story-item[data-selected],
+.hm-story-item[data-active] {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.hm-story-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hm-story-sub {
+  position: relative;
+}
+
+.hm-story-sub[data-presentation='flyout'] .hm-story-sub-content:not([hidden]) {
+  position: absolute;
+  left: calc(100% + 4px);
+  top: 0;
+  z-index: 2;
+  min-width: 160px;
+  padding: 8px;
+  border: 1px solid #c8c8c8;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+}
+
+.hm-story-sub[data-presentation='inline'] .hm-story-sub-content:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 4px 0 4px 12px;
+  padding-left: 8px;
+  border-left: 2px solid #93c5fd;
+}
+
+.hm-story-sub[data-presentation='sheet'] .hm-story-sub-content:not([hidden]) {
+  position: fixed;
+  inset: auto 12px 64px;
+  z-index: 3;
+  max-height: 50vh;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #c8c8c8;
+  background: #fff;
+  box-shadow: 0 -8px 24px rgb(0 0 0 / 16%);
+}
+
+.hm-story-collapse {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px dashed #888;
+  background: #fafafa;
+  cursor: pointer;
+  font: inherit;
+}
+
+.hm-story-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+  padding: 12px;
+  border: 1px solid #d0d0d0;
+  background: #f7f7f7;
+}
+
+.hm-story-hint {
+  margin: 0;
+  color: #555;
+  font-size: 12px;
+}
